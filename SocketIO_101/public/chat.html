@@ -1,0 +1,89 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<style>
+  input {
+    width: 100%;
+    height: 35px;
+  }
+  #messages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .messages li {
+    padding: 5px 10px;
+  }
+  .messages li:nth-child(odd){
+    background-color: #eee;
+  }
+</style>
+<body>
+  <html>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <form id="message-form" action="">
+          <div class="col-sm-10">
+            <input id="user-message" type="text" placeholder="enter your message">
+          </div>
+          <div class="col-sm-2">
+            <input class="btn btn-primary" type="submit" value="send!">
+          </div>
+        </form>
+        <ul class="messages">
+          <!-- THIS WILL BE POPULATED WITH JAVASCRIPT -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  </html>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  const socket = io('http://localhost:9000');
+
+  socket.on('messageFromServer', (dataFromServer) => {
+    console.log(dataFromServer);
+  });
+  socket.emit('dataToServer', {
+    data: 'hello from Client!'
+  })
+
+  document.querySelector('#message-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    console.log('form submited');
+    let newMessage = document.querySelector('#user-message').value;
+    // console.log(userMessage)
+    socket.emit('userMessageToServer', {
+      text: newMessage
+    });
+  });
+  socket.on('messageToClients', (msg) => {
+    let d = new Date().toUTCString();
+    console.log(d.toUTCString)
+    document.querySelector('.messages').innerHTML += 
+    ` <li class="message">
+      <h6>${d}</h6>
+      ${msg.text}
+      </li>`;
+
+
+    // <li> ${msg.text} ${d}</li>
+  })
+
+
+
+
+  // socket.on('ping', ()=>{
+  //     console.log('ping was recived from server.')
+  // })
+
+  // socket.on('pong', (letancy)=>{
+  //     console.log(letancy);
+  //     console.log('pong was send to.')
+  // })
+</script>
