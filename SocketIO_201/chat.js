@@ -14,7 +14,11 @@ io.on('connection', (socket)=>{
     })
     socket.on('userMessageToServer', (msg)=>{
         // console.log(msg)
-        io.emit('messageToClients', {text: msg.text})
+        io.of('/').emit('messageToClients', {text: msg.text})
     })
 })
 
+io.of('/admin').on('connection', (socket)=>{
+    console.log('someone connected to Admin namespace');
+    io.of('/admin').emit('messageForAdminNamespace', 'Admin, hello from Server!')
+})

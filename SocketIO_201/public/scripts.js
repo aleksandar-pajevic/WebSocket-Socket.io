@@ -1,4 +1,5 @@
 const socket = io('http://localhost:9000');
+const socket2 = io('http://localhost:9000/admin');
 
 socket.on('messageFromServer', (dataFromServer) => {
   console.log(dataFromServer);
@@ -18,9 +19,14 @@ document.querySelector('#message-form').addEventListener('submit', (event) => {
 });
 socket.on('messageToClients', (msg) => {
       let d = new Date().toUTCString();
-      console.log(d.toUTCString);
+      console.log(d);
       document.querySelector('.messages').innerHTML +=
         ` <li class="message">
       <h6>${d}</h6>
       ${msg.text}
       </li>`});
+
+      
+socket2.on('messageForAdminNamespace', (data)=>{
+  console.log(data)
+})
