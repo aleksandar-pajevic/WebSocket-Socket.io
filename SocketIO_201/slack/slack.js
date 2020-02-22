@@ -32,6 +32,6 @@ namespaces.forEach((namespace)=>{
         console.log(`${nsSocket.id} has join ${namespace.endpoint}`)
         // a socket has connected to one of our chatgeoup namespaces.
         // send that ns group info back
-        nsSocket.emit('nsRoomLoad', namespaces[0].rooms)
+        nsSocket.emit('nsRoomLoad', namespace.rooms)
     })
 })
