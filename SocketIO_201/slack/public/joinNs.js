@@ -1,6 +1,6 @@
 function joinNs(endpoint) {
 
-const nsSocket = io(`http://localhost:9000${endpoint}`);
+nsSocket = io(`http://localhost:9000${endpoint}`);
 nsSocket.on('nsRoomLoad', (data)=>{
   console.log('these are the rooms in selected namespace:', data)
 
@@ -16,6 +16,9 @@ nsSocket.on('nsRoomLoad', (data)=>{
   Array.from(roomNodes).forEach(room =>{
     room.addEventListener('click', (e)=>{
       console.log('you clicked on', room.innerText, 'room')
+      //here we can join 
+      let roomName = room.innerText;
+      joinRoom(roomName)
     })
   })
 })
@@ -27,7 +30,7 @@ nsSocket.on('messageToClients', (msg)=>{
 document.querySelector('.message-form').addEventListener('submit', (event) => {
   event.preventDefault();
   let newMessage = document.querySelector('#user-message').value;
-  socket.emit('userMessageToServer', { text: newMessage} );
+  nsSocket.emit('userMessageToServer', { text: newMessage} );
 });
 
 }
