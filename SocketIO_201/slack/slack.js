@@ -42,5 +42,9 @@ namespaces.forEach((namespace)=>{
                 numberOfUsersCallback(clients.length)
             })
         })
+        nsSocket.on('userMessageToServer', (msg)=>{
+            console.log(msg)
+            // Send this message to ALL the sockets that are in the room that THIS socket is in.
+        })
     })
 })
