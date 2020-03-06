@@ -6,7 +6,7 @@ function joinNs(endpoint) {
     document.querySelector('#user-input').removeEventListener('submit', formSubmission);
   }
 
-  nsSocket = io(`http://localhost:9000${endpoint}`);
+  nsSocket = io(`${endpoint}`);
   nsSocket.on('nsRoomLoad', (data) => {
     // console.log('these are the rooms in selected namespace:', data)
 
